@@ -6,10 +6,16 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Rock paper scissors game</title>
   <style>
-    body {
+   html, body {
+    
+     height: 100%;
       font-family: sans-serif, 'Times New Roman', Times, serif;
+      
+    }
+    body {
       background-image: linear-gradient( to top right, #d1bf00 30%, green);
-      height: 100vh;
+    height: 100%;
+    background-attachment: fixed;
     }
     h1, p {
       color: white;
@@ -30,7 +36,6 @@
       margin-top: 100px;
     }
     .move-icon:active {
-      
       transform: scale(1.3);
     }
     p {
@@ -45,10 +50,30 @@
       outline: none;
       background-color: orangered;
     }
-    .reset-score:active {
-      background-color: #efefef;
-      transform: scale(1.2);
+    .reset-score:hover {
+      transform: translateY(10px);
     }
+    .reset-score:active {
+      transform: translateY(2px);
+      transform: scale(1.1);
+    }
+    .reset-board {
+      position: absolute;
+      background-color: lawngreen;
+      width: 50%;
+      padding: 15px 20px;
+      opacity: 0;
+      margin-top: 20px;
+      transform: translateY(50px);
+      border-radius: 10px;
+    }
+    .show-score {
+      opacity: 1;
+      transform: translateY(0);
+      transition: 0.5s ease;
+      
+    }
+   
   </style>
 </head>
 
@@ -69,6 +94,9 @@ const playGame = compareResult('scissors');
 <button onclick=" 
 resetScore();
 " class="reset-score">Reset Score</button>
+
+
+<div class="reset-board"></div>
   <script>
   const score = JSON.parse(localStorage.getItem('score')) || {
     wins: 0,
@@ -183,12 +211,21 @@ localStorage.setItem('score', JSON.stringify(score));
   score.wins = 0;
   score.losses = 0;
   score.ties = 0;
+  scoreBoard()
   updateScoreElement();
    }
    function updateScoreElement() {
      document.querySelector('.js-score').innerText = `wins: ${score.wins} losses: ${score.losses} ties: ${score.ties}`;
    }
-
+function scoreBoard() {
+  const reset = document.querySelector(".reset-board");
+  reset.innerHTML = `✔️ score has been reset`;
+  reset.classList.add('show-score');
+  
+  setTimeout(function() {
+    reset.classList.remove('show-score');
+  }, 3000)
+}
   
   </script>
 </body>
